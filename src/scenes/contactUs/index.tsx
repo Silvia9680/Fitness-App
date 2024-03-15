@@ -10,7 +10,7 @@ type Props = {
 
 const ContactUs = ({setSelectPage}: Props) => {
     const inputStyles = `w-full rounded-lg bg-primary-300 px-5 py-3 placeholder-white`
-}
+
     const {
         register,
         trigger,
@@ -22,8 +22,7 @@ const ContactUs = ({setSelectPage}: Props) => {
         if(!isValid) {
             e.preventDefault();
         }
-    
-
+    }
     return (
     <section id='contactus' className='mx-auto w-5/6 pt-24 pb-32'>
             <motion.div 
@@ -67,12 +66,12 @@ const ContactUs = ({setSelectPage}: Props) => {
                             method='POST'
                         >
                             <input 
-                                className={inputStyles}
+                                className={ inputStyles }
                                 type='text'
                                 placeholder='Name'
                                 {...register('name', {
                                     required: true,
-                                    maxLength: 100,
+                                    pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                 })}
                             />
                             {errors.name && (
@@ -81,7 +80,60 @@ const ContactUs = ({setSelectPage}: Props) => {
                                     {errors.name.type === 'maxLength' && 'Max Length is 100 char.'}
                                 </p>
                             )}
+                            <input 
+                                className={inputStyles}
+                                type='text'
+                                placeholder='Email'
+                                {...register('email', {
+                                    required: true,
+                                    maxLength: 100,
+                                })}
+                            />
+                            {errors.email && (
+                                <p className='mt-1 text-primary-500'>
+                                    {errors.email.type === 'required' && 'This field is required.'}
+                                </p>
+                            )}
+                            <textarea 
+                                className={inputStyles}
+                                rows={4}
+                                cols={50}
+                                placeholder='Message'
+                                {...register('message', {
+                                    required: true,
+                                    maxLength: 3000,
+                                })}
+                            />
+                            {errors.message && (
+                                <p className='mt-1 text-primary-500'>
+                                    {errors.message.type === 'required' && 'This field is required.'}
+                                    {errors.message.type === 'maxLength' && 'Max Length is 3000 char.'}
+                                </p>
+                            )}
+
+                            <button
+                                type='submit'
+                                className='mt-5 rounded-lg bg-secondary-500 px-20 py-3 transition duration-500 hover:text-white'
+                            >SUBMIT
+                            </button>
                         </form>
+                    </motion.div>
+                    <motion.div
+                        className='relative mt-16 basis-2/5 md:mt-0'
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.5 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                        variants={{ 
+                            hidden: { opacity: 0, x: -50 },
+                            visible: { opacity: 1, x: 0 },
+                        }}
+                    >
+                    <div className='md:before:content-envolvetext w-full before:absolute before:bottom-20 before:right-10 before:z-[-1]'>
+                        <img 
+                            className='w-full'
+                        src={ContactUsPageGraphic} alt="contact-us-page-graphic" />
+                    </div>
                     </motion.div>
                 </div>
             </motion.div>
